@@ -17,7 +17,7 @@
 	},
 	"upload_source_maps": true,
 	"vars": {
-		"MONITORED_ENDPOINT": "http://ping.ersa.com"
+		"MONITORED_ENDPOINT": "http://ping.ersa.local"
 	},
 	"kv_namespaces": [
 		{
