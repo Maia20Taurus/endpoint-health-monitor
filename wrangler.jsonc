@@ -17,7 +17,7 @@
 	},
 	"upload_source_maps": true,
 	"vars": {
-		"MONITORED_ENDPOINT": "https://ping.archlinux.org"
+		"MONITORED_ENDPOINT": "jellyfin.maia395.dev"
 	},
 	"kv_namespaces": [
 		{
