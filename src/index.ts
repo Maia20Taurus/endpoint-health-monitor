@@ -38,20 +38,20 @@ export default {
 				headers: {
 					"Content-Type": "application/json"
 				},
-				body: JSON.stringify({ content:`Endpoint: ${env.MONITORED_ENDPOINT} is DOWN` })
-		});
-	}
+				body: JSON.stringify({ content: `Endpoint: ${env.MONITORED_ENDPOINT} is DOWN` })
+			});
+		}
 
 		await env.ENDPOINT_STATE.put(env.MONITORED_ENDPOINT, state);
 
 
-	env.ENDPOINT_ANALYTICS.writeDataPoint({
-		'blobs': [env.MONITORED_ENDPOINT],
-		'doubles': [
-			resp.status,
-			parseInt(resp.headers.get("content-length") ?? "0"),
-			latency
-		]
-	});
-},
+		env.ENDPOINT_ANALYTICS.writeDataPoint({
+			'blobs': [env.MONITORED_ENDPOINT],
+			'doubles': [
+				resp.status,
+				parseInt(resp.headers.get("content-length") ?? "0"),
+				latency
+			]
+		});
+	},
 } satisfies ExportedHandler<Env>;
