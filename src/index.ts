@@ -28,8 +28,19 @@ export default {
 		// publish to a Queue, query a D1 Database, and much more.
 		//
 		// We'll keep it simple and make an API call to a Cloudflare API:
-		let resp = await fetch(env.MONITORED_ENDPOINT);
+		let startTime: number = Date.now();
+		let resp = await env.ERSA.fetch(env.MONITORED_ENDPOINT, {redirect:"manual"});
+		let latency: number = Date.now() - startTime;
 		let wasSuccessful = resp.ok ? 'success' : 'fail';
+
+		env.ENDPOINT_ANALYTICS.writeDataPoint({
+			'blobs':[env.MONITORED_ENDPOINT],
+			'doubles':[
+				resp.status,
+				parseInt(resp.headers.get("content-length") ?? "0"),
+				latency
+			]
+		});
 
 		// You could store this result in KV, write to a D1 Database, or publish to a Queue.
 		// In this template, we'll just log the result:
