@@ -17,7 +17,7 @@
 	},
 	"upload_source_maps": true,
 	"vars": {
-		"MONITORED_ENDPOINT": "http://ping.ersa.local"
+		"MONITORED_ENDPOINT": "https://maia395.dev"
 	},
 	"kv_namespaces": [
 		{
