@@ -29,16 +29,29 @@ export default {
 		if (resp.ok) {
 			state = 'UP'
 		}
+
+		let previousState = await env.ENDPOINT_STATE.get(env.MONITORED_ENDPOINT);
+
+		if (previousState == 'UP' && state == 'DOWN') {
+			const response = await fetch(env.WEBHOOK, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify({ content:`Endpoint: ${env.MONITORED_ENDPOINT} is DOWN` })
+		});
+	}
+
 		await env.ENDPOINT_STATE.put(env.MONITORED_ENDPOINT, state);
 
 
-		env.ENDPOINT_ANALYTICS.writeDataPoint({
-			'blobs': [env.MONITORED_ENDPOINT],
-			'doubles': [
-				resp.status,
-				parseInt(resp.headers.get("content-length") ?? "0"),
-				latency
-			]
-		});
-	},
+	env.ENDPOINT_ANALYTICS.writeDataPoint({
+		'blobs': [env.MONITORED_ENDPOINT],
+		'doubles': [
+			resp.status,
+			parseInt(resp.headers.get("content-length") ?? "0"),
+			latency
+		]
+	});
+},
 } satisfies ExportedHandler<Env>;
