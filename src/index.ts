@@ -16,34 +16,29 @@
  */
 
 export default {
-	async fetch(req) {
-		const url = new URL(req.url);
-		url.pathname = '/__scheduled';
-		url.searchParams.append('cron', '* * * * *');
-		return new Response(`To test the scheduled handler, ensure you have used the "--test-scheduled" then try running "curl ${url.href}".`);
-	},
-
 	async scheduled(event, env, ctx): Promise<void> {
 		// A Cron Trigger can make requests to other endpoints on the Internet,
 		// publish to a Queue, query a D1 Database, and much more.
 		//
 		// We'll keep it simple and make an API call to a Cloudflare API:
 		let startTime: number = Date.now();
-		let resp = await env.ERSA.fetch(env.MONITORED_ENDPOINT, {redirect:"manual"});
+		let resp = await env.ERSA.fetch(env.MONITORED_ENDPOINT, { redirect: "manual" });
 		let latency: number = Date.now() - startTime;
-		let wasSuccessful = resp.ok ? 'success' : 'fail';
+
+		let state = 'DOWN';
+		if (resp.ok) {
+			state = 'UP'
+		}
+		await env.ENDPOINT_STATE.put(env.MONITORED_ENDPOINT, state);
+
 
 		env.ENDPOINT_ANALYTICS.writeDataPoint({
-			'blobs':[env.MONITORED_ENDPOINT],
-			'doubles':[
+			'blobs': [env.MONITORED_ENDPOINT],
+			'doubles': [
 				resp.status,
 				parseInt(resp.headers.get("content-length") ?? "0"),
 				latency
 			]
 		});
-
-		// You could store this result in KV, write to a D1 Database, or publish to a Queue.
-		// In this template, we'll just log the result:
-		console.log(`trigger fired at ${event.cron}: ${wasSuccessful}`);
 	},
 } satisfies ExportedHandler<Env>;
