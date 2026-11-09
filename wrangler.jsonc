@@ -17,7 +17,7 @@
 	},
 	"upload_source_maps": true,
 	"vars": {
-		"MONITORED_ENDPOINT": "maia395.dev"
+		"MONITORED_ENDPOINT": "https://ping.archlinux.org"
 	},
 	"kv_namespaces": [
 		{
