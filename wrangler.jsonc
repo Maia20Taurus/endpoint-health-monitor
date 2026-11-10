@@ -17,7 +17,7 @@
 	},
 	"upload_source_maps": true,
 	"vars": {
-		"MONITORED_ENDPOINT": "https://jellyfin.maia395.dev"
+		"MONITORED_ENDPOINT": "https://maia395.dev"
 	},
 	"kv_namespaces": [
 		{
