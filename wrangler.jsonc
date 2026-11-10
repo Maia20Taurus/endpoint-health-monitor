@@ -7,6 +7,7 @@
 	"name": "endpoint-health-monitor",
 	"main": "src/index.ts",
 	"compatibility_date": "2026-11-04",
+	"workers_dev": false,
 	"observability": {
 		"enabled": true
 	},
@@ -33,7 +34,7 @@
 	"vpc_networks": [
 		{
 			"binding": "TUNNEL",
-			"tunnel_id": "f2dcbcac-c693-4dbd-a131-253dd8020fa8",
+			"tunnel_id": "a2d23ba9-749a-4ea7-9425-c7c0dbe84b51",
 			"remote": true
 		}
 	],
