@@ -15,7 +15,7 @@ you can analyse metrics such as response status codes, content length and approx
 
 You can deploy this to Cloudflare Workers using the [Wrangler](https://developers.cloudflare.com/workers/get-started/guide/) tool.
 
-**1. Set the WEBHOOK secret using**
+### 1. Set the WEBHOOK secret using**
 ```
 npx wrangler secret put WEBHOOK
 ```
@@ -26,14 +26,14 @@ When the state changes (from UP to DOWN, or vice versa), the program will send a
 This way, the webhook seamlessly integrates with a [Discord webhook](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks).
 Feel free to fork the repository if you need a different payload!
 
-**2. Set the endpoint you'd like to monitor by modifying the `wrangler.jsonc` file:**
+### 2. Set the endpoint you'd like to monitor by modifying the `wrangler.jsonc` file:**
 ```json
 "vars": {
 		"MONITORED_ENDPOINT": "https://maia395.dev"
 	}
 ```
 
-**(Optional) Change the cron frequency
+### (Optional) Change the cron frequency
 Modify the cron frequency, or add multiple triggers in `wrangler.jsonc`
 ```json
 "triggers": {
