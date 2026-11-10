@@ -32,13 +32,13 @@ export default {
 
 		let previousState = await env.ENDPOINT_STATE.get(env.MONITORED_ENDPOINT);
 
-		if (previousState == 'UP' && state == 'DOWN') {
+		if (previousState !== state) {
 			const response = await fetch(env.WEBHOOK, {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json"
 				},
-				body: JSON.stringify({ content: `Endpoint: ${env.MONITORED_ENDPOINT} is DOWN` })
+				body: JSON.stringify({ content: `Endpoint: ${env.MONITORED_ENDPOINT} is ${state}` })
 			});
 		}
 
