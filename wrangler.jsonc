@@ -22,7 +22,6 @@
 	"kv_namespaces": [
 		{
 			"binding": "ENDPOINT_STATE",
-			"id": "66af61aca63f434094bbd3524e90a500"
 		}
 	],
 	"analytics_engine_datasets": [
@@ -33,10 +32,14 @@
 	],
 	"vpc_networks": [
 		{
-			"binding": "ERSA",
+			"binding": "TUNNEL",
 			"tunnel_id": "f2dcbcac-c693-4dbd-a131-253dd8020fa8",
 			"remote": true
 		}
 	],
-	"secrets": {"required": ["WEBHOOK"]}
+	"secrets": {
+		"required": [
+			"WEBHOOK"
+		]
+	}
 }

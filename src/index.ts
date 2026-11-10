@@ -22,7 +22,7 @@ export default {
 		//
 		// We'll keep it simple and make an API call to a Cloudflare API:
 		let startTime: number = Date.now();
-		let resp = await env.ERSA.fetch(env.MONITORED_ENDPOINT, { redirect: "manual", signal: AbortSignal.timeout(10000) });
+		let resp = await env.TUNNEL.fetch(env.MONITORED_ENDPOINT, { redirect: "manual", signal: AbortSignal.timeout(10000) });
 		let latency: number = Date.now() - startTime;
 
 		let state = 'DOWN';
