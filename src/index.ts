@@ -38,6 +38,7 @@ export default {
 		} catch (error) {
 			if (previousState !== state) {
 				await sendToWebhook(`Endpoint: ${env.MONITORED_ENDPOINT} has failed with error: ${error}`);
+				await env.ENDPOINT_STATE.put(env.MONITORED_ENDPOINT, 'DOWN');
 			}
 		}
 
