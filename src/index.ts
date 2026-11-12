@@ -1,4 +1,5 @@
 import { env } from "cloudflare:workers";
+import { write } from "node:fs";
 
 enum endpointStates {
 	Down = 'DOWN',
@@ -46,6 +47,8 @@ export default {
 				// Set state down to prevent further webhook calls
 				await env.ENDPOINT_STATE.put(env.MONITORED_ENDPOINT, endpointStates.Down);
 			}
+			writeAnalyticsPoint([0,0,0]);
+			return;
 		}
 
 		if (previousState !== state) {
