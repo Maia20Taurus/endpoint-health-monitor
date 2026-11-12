@@ -30,7 +30,7 @@ export default {
 		let previousState = await env.ENDPOINT_STATE.get(env.MONITORED_ENDPOINT);
 
 		try {
-			const response = await env.TUNNEL.fetch(env.MONITORED_ENDPOINT, { redirect: "manual", signal: AbortSignal.timeout(10000) });
+			const response = await env.TUNNEL.fetch(env.MONITORED_ENDPOINT, { redirect: "manual", signal: AbortSignal.timeout(env.REQUEST_TIMEOUT_MS) });
 			if (response.ok) {
 				state = endpointStates.Up;
 			}
@@ -47,7 +47,7 @@ export default {
 				// Set state down to prevent further webhook calls
 				await env.ENDPOINT_STATE.put(env.MONITORED_ENDPOINT, endpointStates.Down);
 			}
-			writeAnalyticsPoint([0,0,0]);
+			writeAnalyticsPoint([0,0,Date.now() - startTime]);
 			return;
 		}
 

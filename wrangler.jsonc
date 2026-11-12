@@ -17,7 +17,8 @@
 	},
 	"upload_source_maps": true,
 	"vars": {
-		"MONITORED_ENDPOINT": "https://maia395.dev"
+		"MONITORED_ENDPOINT": "https://maia395.dev",
+		"REQUEST_TIMEOUT_MS": 10000
 	},
 	"kv_namespaces": [
 		{
