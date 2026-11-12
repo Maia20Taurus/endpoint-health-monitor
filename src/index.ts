@@ -1,5 +1,10 @@
 import { env } from "cloudflare:workers";
 
+enum endpointStates {
+	Down = 'DOWN',
+	Up = 'UP'
+}
+
 async function sendToWebhook(message: String) {
 	await fetch(env.WEBHOOK, {
 		method: "POST",
@@ -19,14 +24,14 @@ function writeAnalyticsPoint(doubles: number[]) {
 
 export default {
 	async scheduled(event, env, ctx): Promise<void> {
-		let state = 'DOWN';
+		let state = endpointStates.Down;
 		let startTime: number = Date.now();
 		let previousState = await env.ENDPOINT_STATE.get(env.MONITORED_ENDPOINT);
 
 		try {
 			const response = await env.TUNNEL.fetch(env.MONITORED_ENDPOINT, { redirect: "manual", signal: AbortSignal.timeout(10000) });
 			if (response.ok) {
-				state = 'UP';
+				state = endpointStates.Up;
 			}
 			let latency: number = Date.now() - startTime;
 
@@ -38,7 +43,8 @@ export default {
 		} catch (error) {
 			if (previousState !== state) {
 				await sendToWebhook(`Endpoint: ${env.MONITORED_ENDPOINT} has failed with error: ${error}`);
-				await env.ENDPOINT_STATE.put(env.MONITORED_ENDPOINT, 'DOWN');
+				// Set state down to prevent further webhook calls
+				await env.ENDPOINT_STATE.put(env.MONITORED_ENDPOINT, endpointStates.Down);
 			}
 		}
 
